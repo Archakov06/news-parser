@@ -3,8 +3,7 @@ import unirest from 'unirest';
 
 export default class ParserClass {
 
-  constructor() {
-  }
+  constructor() {}
 
   getLinks(obj) {
     return new Promise((resolve, reject) => {
@@ -16,8 +15,11 @@ export default class ParserClass {
         const elems = $(selector);
         let urls = [];
         elems.map((i, elem) => {
-          const link = obj.prefix ? url + $(elem).attr('href') : $(elem).attr('href');
-          urls.push( link.replace(/\/\//g, '/') );
+          let link = $(elem).attr('href');
+          if (obj.prefix && link.indexOf('://') == -1) {
+            link = obj.prefix + link;
+          }
+          urls.push( link );
         });
         if (!urls.length) reject();
         resolve(urls);
@@ -45,50 +47,30 @@ export default class ParserClass {
    * @return {[type]}     [description]
    */
   getPost(obj) {
-    const url = obj.url;
-    const details = obj.details;
-    if (!details || !url) reject();
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
+
+      const url = obj.url;
+      const details = obj.details;
+
       unirest.get(url).end((response) => {
         const html = response.body;
         const $ = cheerio.load(html);
 
-        const postDetails = {
-          title: {
-            text: $(details.title).text(),
-            html: $(details.title).html(),
-          },
-          submitted: {
-            text: $(details.submitted).text(),
-            html: $(details.submitted).html(),
-          },
-          content: {
-            text: $(details.content).text(),
-            html: $(details.content).html(),
-          },
-          image: {
-            text: $(details.image).text(),
-            html: $(details.image).html(),
-          },
-          tags: {
-            text: $(details.tags).text(),
-            html: $(details.tags).html(),
-          },
-          category: {
-            text: $(details.category).text(),
-            html: $(details.category).html(),
-          },
-          views: {
-            text: $(details.views).text(),
-            html: $(details.views).html(),
-          },
-          comments: {
-            text: $(details.comments).text(),
-            html: $(details.comments).html(),
-          },
-        };
-        resolve(postDetails);
+        const post = {};
+
+        for (var key in details) {
+          let val = key == 'image' ? $(details[key]).attr('src') : $(details[key]).text();
+          val = key == 'image' && obj.prefix ? obj.prefix + val : val;
+          post[key] = {
+            value: val,
+            html: $(details[key]).html(),
+          }
+        }
+
+        resolve(post);
+
       });
+
     });
   }
 
