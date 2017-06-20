@@ -4,8 +4,22 @@ import IngushetiaParser from './parsers/IngushetiaParser'
 import YugaParser from './parsers/YugaParser'
 import { exec } from 'child_process';
 
-exec('git add .', () => {
-  exec('git commit -m "update"', () => {
-    exec('git push origin master');
-  });
-});
+const parsers = [
+  new MagasParser(),
+  new IngNewsParser(),
+  new IngushetiaParser(),
+  new YugaParser(),
+];
+
+parsers.forEach((p) => p.start());
+
+setTimeout(() => {
+  exec('git add .');
+    setTimeout(() => {
+      const date = `updated - ${new Date().getDate()}.${new Date().getMonth()+1}.${new Date().getFullYear()} - ${new Date().getHours()}:${new Date().getMinutes()}`;
+      exec(`git commit -m "${date}"`);
+        setTimeout(() => {
+          exec('git push origin master');
+        }, 1000);
+    }, 1000);
+}, 10000);
