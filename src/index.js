@@ -8,7 +8,7 @@ const parsers = [
   new MagasParser(),
   new IngNewsParser(),
   new IngushetiaParser(),
-  new YugaParser(),
+  //new YugaParser(),
 ];
 
 parsers.forEach((p) => p.start());

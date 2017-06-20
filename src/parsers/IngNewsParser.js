@@ -31,7 +31,7 @@ export default class IngNewsParser {
       }));
 
       Promise.all(promises).then(() => fs.writeFile('ingnews.json', beautify(posts, null, 2, 80), (err) => {
-        if (err) console.log('Error write file: ', err); else console.log('SAVED!');
+        if (err) console.log('Error write file: ', err); else console.log('IngNews: SAVED!');
       }));
 
     }).catch((err) => {

@@ -27,7 +27,7 @@ export default class MagasParser {
       }));
 
       Promise.all(promises).then(() => fs.writeFile('magas.json', beautify(posts, null, 2, 80), (err) => {
-        if (err) console.log('Error write file: ', err); else console.log('SAVED!');
+        if (err) console.log('Error write file: ', err); else console.log('Magas: SAVED!');
       }));
 
     }).catch((err) => {
