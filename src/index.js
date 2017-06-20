@@ -6,6 +6,6 @@ import { exec } from 'child_process';
 
 exec('git add .', () => {
   exec('git commit -m "update"', () => {
-    exec('git push');
+    exec('git push origin master');
   });
 });
