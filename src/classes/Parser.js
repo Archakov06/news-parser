@@ -56,11 +56,13 @@ export default class ParserClass {
       unirest.get(url).end((response) => {
 
         let html = response.body;
-        if (html.indexOf('-1251')>=0) {
+
+        if (html.indexOf('windows-1251')>=0) {
           html = new Buffer(html, 'binary');
-          const conv = new iconv.Iconv('windows-1251', 'utf8');
+          const conv = new iconv.Iconv('windows-1251', 'UTF-8');
           html = conv.convert(html).toString();
         }
+
         const $ = cheerio.load(html);
 
         const post = {};
