@@ -2,12 +2,10 @@ import MagasParser from './parsers/MagasParser'
 import IngNewsParser from './parsers/IngNewsParser'
 import IngushetiaParser from './parsers/IngushetiaParser'
 import YugaParser from './parsers/YugaParser'
+import { exec } from 'child_process';
 
-const parsers = [
-  new MagasParser(),
-  new IngNewsParser(),
-  new IngushetiaParser(),
-  new YugaParser(),
-];
-
-parsers.forEach((p) => p.start());
+exec('git add .', () => {
+  exec('git commit -m "update"', () => {
+    exec('git push');
+  });
+});
