@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "iconv": "^2.2.3",
+    "iconv-lite": "^0.4.18",
     "json-beautify": "^1.0.1",
     "jsonfile": "^3.0.0",
     "unirest": "^0.5.1"
