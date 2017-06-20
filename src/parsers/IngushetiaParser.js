@@ -23,7 +23,9 @@ export default class IngushetiaParser {
           content: '.page-content p',
           image: '.page-content img',
         }
-      }).then((post) => posts.push(post)));
+      }).then((post) => {
+        posts.push(post);
+      }));
 
       Promise.all(promises).then(() => fs.writeFile('ingushetia.json', beautify(posts, null, 2, 80), (err) => {
         if (err) console.log('Error write file: ', err); else console.log('Ingushetia: SAVED!');

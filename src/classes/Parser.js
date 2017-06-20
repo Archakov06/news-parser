@@ -62,15 +62,15 @@ export default class ParserClass {
         const post = {};
 
         for (var key in details) {
-          let val = key == 'image' ? $(details[key]).attr('src') : $(details[key]).text();
-          val = key == 'image' && obj.prefix ? obj.prefix + val : val;
+          let val = key == 'image' ? ($(details[key]).attr('src') ? $(details[key]).attr('src') : '') : $(details[key]).text();
+          val = key == 'image' && obj.prefix ? (val ? (obj.prefix + val) : '') : val;
           post[key] = {
             value: val,
             html: $(details[key]).html(),
           }
         }
 
-        resolve(post);
+        resolve(post, $);
 
       });
 
