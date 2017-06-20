@@ -22,7 +22,9 @@ export default class MagasParser {
           content: '.page-content .content p',
           image: '.imagecache-image_small img',
         }
-      }).then((post) => posts.push(post)));
+      }).then((post) => {
+        if (post.title.value.indexOf('реклама') == -1) posts.push(post)
+      }));
 
       Promise.all(promises).then(() => fs.writeFile('magas.json', beautify(posts, null, 2, 80), (err) => {
         if (err) console.log('Error write file: ', err); else console.log('SAVED!');
