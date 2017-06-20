@@ -1,5 +1,6 @@
 import cheerio from 'cheerio';
 import unirest from 'unirest';
+import iconv from 'iconv';
 
 export default class ParserClass {
 
@@ -53,7 +54,13 @@ export default class ParserClass {
       const details = obj.details;
 
       unirest.get(url).end((response) => {
-        const html = response.body;
+
+        let html = response.body;
+        if (html.indexOf('-1251')>=0) {
+          html = new Buffer(html, 'binary');
+          const conv = new iconv.Iconv('windows-1251', 'utf8');
+          html = conv.convert(html).toString();
+        }
         const $ = cheerio.load(html);
 
         const post = {};
